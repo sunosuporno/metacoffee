@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import {auth, initAuth} from './composables/arcanaInit'
 import './assets/global.css'
-
 let app
 
 // if(auth){
