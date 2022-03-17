@@ -6,19 +6,25 @@
     <button @click="handleAuth">Sign In</button>
     <button @click="handleInfo">Get Info</button>
   </div>
+
+  <div v-if="auth">
+    <p v-if="user">
+      Hello {{user.userInfo.name}}
+    </p>
+  </div>
 </template>
 
 <script>
-import { AuthProvider, SocialLoginType } from "@arcana/auth";
+import { SocialLoginType } from "@arcana/auth";
 import {user, checkUser} from "../composables/getUser"
 import {auth} from "../composables/arcanaInit"
-import { onMounted, ref } from "@vue/runtime-core";
+import { onMounted, ref, watchEffect } from "@vue/runtime-core";
 export default {
   setup() {
-
+    const showName = ref(false);
 
     const handleAuth = async () => {
-      if (auth.isLoggedIn()) {
+      if (await auth.isLoggedIn()) {
         console.log("Already logged in");
       } else {
         const res = await auth.loginWithSocial(SocialLoginType.google);
@@ -32,6 +38,9 @@ export default {
     };
 
     return {
+      auth,
+      user,
+      showName,
       handleAuth,
       handleInfo,
     };

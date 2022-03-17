@@ -5,7 +5,7 @@ let auth
 const initAuth = async () => {
     auth = await AuthProvider.init({
         appID: `539`,
-        flow: 'popup', // 'popup' or 'redirect'
+        flow: 'redirect', // 'popup' or 'redirect'
         redirectUri:'' // Can be ignored for redirect flow if same as login page
      });
 
@@ -13,8 +13,6 @@ const initAuth = async () => {
      return auth
 }
 
-initAuth()
-
 console.log(auth)
 
- export {auth};
+ export {auth, initAuth};
