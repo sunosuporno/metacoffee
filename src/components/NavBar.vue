@@ -1,16 +1,16 @@
 <template>
-  <div class="header">
-    <router-link :to="{ name: 'Home' }">Meta Coffee</router-link>
-    <div class="nav">
+  <header>
+      <router-link :to="{ name: 'Home' }" class="main-name">Firma</router-link>
+    <nav class="nav">
       <div v-if="user">
-        <div class="avi-image" :style="{background: backgroundImageUrl}"></div>
+        <!-- <div class="avi-image" :style="{backgroundImage: url(backgroundImageUrl)}"></div> -->
         <p>Hello {{ user.userInfo.name }}</p>
       </div>
       <div v-else>
         <router-link :to="{ name: 'Login' }">Get Started</router-link>
       </div>
-    </div>
-  </div>
+    </nav>
+  </header>
 </template>
 
 <script>
@@ -27,36 +27,47 @@ export default {
         await checkUser()
       }
       console.log(user.value);
-      backgroundImageUrl.value  = user.value.userInfo.picture
+      // backgroundImageUrl.value  = `${user.value.userInfo.picture}`
       
-      console.log(backgroundImageUrl.value)
+      // console.log(backgroundImageUrl.value)
     });
 
     return {
       user,
-      backgroundImageUrl
+      // backgroundImageUrl
     };
   },
 };
 </script>
 
 <style>
-.header {
+header {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   margin-top: 10px;
 }
-.nav {
+nav {
   display: flex;
   justify-content: space-around;
 }
-.avi-image{
+/* .avi-image{
   width: 50px;
   height: 50px;
   border-radius: 50%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('https://lh3.googleusercontent.com/a-/AOh14Gghyp6RAkIU87WBSl0SHR7wWwjys2WkqeTgFrcr1Es=s96-c');
+  /* background-image: url('https://lh3.googleusercontent.com/a-/AOh14Gghyp6RAkIU87WBSl0SHR7wWwjys2WkqeTgFrcr1Es=s96-c'); 
+} */
+.main-name{
+  font-size: 1.7rem;
+  font-weight: semi-bold;
+  background: -webkit-linear-gradient(rgb(221, 27, 27), rgb(41, 27, 228));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 1px;
 }
+
 </style>
