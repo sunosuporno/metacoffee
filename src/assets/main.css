@@ -1,0 +1,170 @@
+.card {
+  height: 100vh;
+}
+
+.card #app {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border: 2px solid #b9b9b9;
+}
+
+.card .header {
+  width: 100%;
+}
+
+.card .header .profileContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.card .header .profileContainer .userId {
+  margin-top: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: large;
+}
+
+.card .header .profilePicture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+}
+
+.card .linkContainer {
+  max-width: 680px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 80%;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.card .linkContainer .link {
+  width: 100%;
+  height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 2px solid #b9b9b9;
+  margin: 10px;
+  border-radius: 25px;
+}
+
+.card .footer {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.card .footer .logo {
+  padding: 10px;
+  margin: 10px;
+}
+
+.card .options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-items: end;
+  max-width: 800px;
+  text-align: right;
+  padding: 20px 0;
+}
+
+.card .options div {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  margin: 2x 10px;
+  border: 1px solid #bdbdbd;
+  display: inline-block;
+  opacity: 0.4;
+}
+
+.card .options div.active {
+  opacity: 1;
+}
+
+.card .options #theme-white {
+  background-color: #eee;
+}
+
+.card .options #theme-black {
+  background-color: #000;
+}
+
+.card .options #theme-blue {
+  background-color: #00bcd4;
+}
+
+.card .options #theme-red {
+  background-color: #f44336;
+}
+
+@media screen and (max-width: 600px) {
+  .card .linkContainer {
+    width: 80%;
+  }
+}
+
+#app.theme-blue {
+  background-color: #00bcd4;
+  color: #000;
+}
+
+#app.theme-red {
+  background-color: #f44336;
+  color: #eee;
+}
+
+#app.theme-black {
+  background-color: #000;
+  color: #eee;
+}
+/*# sourceMappingURL=main.css.map */
