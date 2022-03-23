@@ -5,6 +5,7 @@
       <div v-if="user">
         <!-- <div class="avi-image" :style="{backgroundImage: url(backgroundImageUrl)}"></div> -->
         <p>Hello {{ user.userInfo.name }}</p>
+        <button @click="handleClick">Log out</button>
       </div>
       <div v-else>
         <router-link :to="{ name: 'Login' }">Get Started</router-link>
@@ -17,9 +18,11 @@
 import { onBeforeMount, ref } from "@vue/runtime-core";
 import { user, checkUser } from "../composables/getUser";
 import { auth } from "../composables/arcanaInit";
+import { useRouter } from "vue-router";
 export default {
   setup() {
     const backgroundImageUrl = ref(null);
+    const router = useRouter();
     onBeforeMount(async () => {
       console.log(auth)
       const loggedIn = await auth.isLoggedIn()
@@ -31,9 +34,19 @@ export default {
       
       // console.log(backgroundImageUrl.value)
     });
+    const handleClick = async () => {
+      await checkUser()
+      console.log(user.value);
+      if(user.value){
+        await auth.logout()
+        user.value = null
+        router.push({name: "Login"});
+      }
+    };
 
     return {
       user,
+      handleClick,
       // backgroundImageUrl
     };
   },

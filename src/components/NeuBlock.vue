@@ -67,7 +67,7 @@ export default {
   height: auto;
   padding: 1em 0;
 }
-@media only screen and (min-width: 700px) {
+@media only screen and (min-width: 700px){
   .feature {
     align-items: center;
     justify-content: center;
@@ -90,6 +90,12 @@ export default {
     letter-spacing: -1px;
     line-height: 30px;
     width: 90%;
+  }
+}
+@media only screen and (min-width: 930px) {
+  .block{
+    width: 22.6em;
+    height: 500px;
   }
 }
 </style>

@@ -1,71 +1,74 @@
 <template>
-  <div class="home">
-    <p class="firma-pitch">
-      You need only one link to summarize your whole digital presence. Get yours
-      now.<br />
-    </p>
-    <div class="main-body">
-      <div class="left-side">
-        <p class="desc">
-          Customise your link page, accept donations in crypto, embed videos,
-          show your NFTs, and do much more with the most powerful link manager.
+  <div class="container">
+    <div class="home">
+      <p class="firma-pitch">
+        You need only one link to summarize your whole digital presence. Get
+        yours now.<br />
+      </p>
+      <div class="main-body">
+        <div class="left-side">
+          <p class="desc">
+            Customise your link page, accept donations in crypto, embed videos,
+            show your NFTs, and do much more with the most powerful link
+            manager.
+          </p>
+          <div class="example">
+            <div class="link-bar">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="encrypted"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <p class="dummy-link">
+                firma.xyz/<span class="dummy-name">yourname</span>
+              </p>
+            </div>
+            <div class="cta">
+              <p>Get yours now for free!</p>
+            </div>
+            <p class="assurance">✅ No spam. 🏎 Build your link in seconds.</p>
+          </div>
+        </div>
+        <div class="right-side"></div>
+      </div>
+      <div class="features">
+        <p class="feature-heading">
+          The Most Complete Link Manager That Does So Much More!
         </p>
-        <div class="example">
-          <div class="link-bar">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="encrypted"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <p class="dummy-link">
-              firma.xyz/<span class="dummy-name">yourname</span>
-            </p>
-          </div>
-          <div class="cta">
-            <p>Get yours now for free!</p>
-          </div>
-          <p class="assurance">✅ No spam. 🏎 Build your link in seconds.</p>
+        <div class="feature-list" v-for="feature in features" :key="feature.id">
+          <NeuBlock
+            :title="feature.title"
+            :desc="feature.desc"
+            :isPremium="feature.isPremium"
+            :image="feature.image"
+          />
         </div>
       </div>
-      <div class="right-side"></div>
-    </div>
-    <div class="features">
-      <p class="feature-heading">
-        The Most Complete Link Manager That Does So Much More!
-      </p>
-      <div class="feature-list" v-for="feature in features" :key="feature.id">
-        <NeuBlock
-          :title="feature.title"
-          :desc="feature.desc"
-          :isPremium="feature.isPremium"
-          :image="feature.image"
-        />
+      <div class="last-cta">
+        <p class="feature-heading">So what are you waiting for?</p>
+        <div class="last-cta-button">
+          <p>Get Started!</p>
+        </div>
       </div>
-    </div>
-    <div class="last-cta">
-      <p class="feature-heading">So what are you waiting for?</p>
-      <div class="last-cta-button">
-        <p>Get Started!</p>
-      </div>
-    </div>
-    <div class="footer">
-      <p class="footer-name">FIRMA</p>
-      <div class="our-links">
-        <img src="@/assets/twitter.svg" alt="twitter" class="our-socials" />
-        <img src="@/assets/linkedin.svg" alt="linkedin" class="our-socials" />
-      </div>
-      <div class="sitemap">
-        <p><span>SiteMap</span></p>
-        <p>About</p>
-        <p>Pricing</p>
-        <p>Contact</p>
+      <div class="footer">
+        <p class="footer-name">FIRMA</p>
+        <div class="our-links">
+          <img src="@/assets/twitter.svg" alt="twitter" class="our-socials" />
+          <img src="@/assets/linkedin.svg" alt="linkedin" class="our-socials" />
+        </div>
+        <div class="sitemap">
+          <p><span>SiteMap</span></p>
+          <p>About</p>
+          <p>Pricing</p>
+          <p>Contact</p>
+        </div>
       </div>
     </div>
   </div>
@@ -74,6 +77,7 @@
 <script>
 // @ is an alias to /src
 import NeuBlock from "@/components/NeuBlock.vue";
+
 export default {
   components: {
     NeuBlock,
@@ -273,8 +277,8 @@ export default {
 .right-side {
   display: none;
 }
-.last-cta-button{
-    display: flex;
+.last-cta-button {
+  display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 5%;
@@ -311,10 +315,10 @@ export default {
     border-radius: 25px;
     background-color: azure;
   }
-  .example{
+  .example {
     margin-top: 10%;
   }
-  .desc{
+  .desc {
     font-size: 1.9rem;
     width: 50vw;
   }
@@ -322,7 +326,7 @@ export default {
     width: 47vw;
     margin-left: 5em;
   }
-  .cta{
+  .cta {
     width: 37vw;
     margin-left: 5em;
   }
@@ -330,24 +334,30 @@ export default {
     font-size: 0.5rem;
     margin-left: 5em;
   }
-  .features{
+  .features {
     display: flex;
     flex-flow: row wrap;
     align-items: stretch;
     justify-content: space-between;
   }
-  .feature-heading{
+  .feature-heading {
     font-size: 2.2rem;
   }
-  .last-cta{
+  .last-cta {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  .last-cta-button{
-    width:70%;
+  .last-cta-button {
+    width: 70%;
     font-size: 1.6rem;
     border-radius: 30px;
+  }
+}
+@media only screen and (min-width: 930px) {
+  .firma-pitch {
+    margin-top: 5%;
+    font-size: 3.5rem;
   }
 }
 </style>

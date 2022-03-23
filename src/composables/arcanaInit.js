@@ -13,6 +13,6 @@ const initAuth = async () => {
      return auth
 }
 
-console.log(auth)
+
 
  export {auth, initAuth};
