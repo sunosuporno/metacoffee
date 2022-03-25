@@ -1,11 +1,10 @@
 <template>
   <div class="container">
     <div>
-      <p>Wait!</p>
-    </div>
-    <div>
-      <button @click="handleAuth">Sign In</button>
-      <button @click="handleInfo">Log out</button>
+      <button @click="handleAuth" class="login-btn">
+        <img src="../assets/google.svg" alt="log in with google" type="image/svg">
+        <p>Sign In With Google</p></button>
+      <button v-if="user" @click="handleInfo">Log out</button>
     </div>
 
     <div v-if="auth">
@@ -55,4 +54,29 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.container{
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.login-btn{
+  min-width: fit-content;
+  font-size: 1.3rem;
+  padding: 0.5em 1em;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+.login-btn:hover, .login-btn:focus{
+  border: 5px solid #1876D1;
+  outline: none;
+  cursor: pointer;
+  transition-duration: 700ms;
+}
+.login-btn p{
+  margin-left: 10px;
+}
+</style>
