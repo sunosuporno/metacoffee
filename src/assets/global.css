@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Saira:wght@100;200;300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Saira", sans-serif;
+  background-color: rgb(29, 27, 27);
+  color: antiquewhite;
+}
+.container {
+  width: 87%;
+  margin: 0 auto;
+}
+
+/* Link page */
+.body {
+  width: 100%;
+  min-height: 100vh;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.primary-details {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4em;
+}
+.picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 1em auto;
+}
+.name {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+.about {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lf {
+  background-color: black;
+  border-radius: 20px;
+  position: absolute;
+  bottom: 30px;
+  padding: 10px 20px;
+}
+.link-footer {
+  text-decoration: none;
+  color: azure;
+}
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  margin-bottom: 0.7em;
+  text-decoration: none;
+  width: 70vw;
+  height: 55px;
+}
+.link:hover,
+.link:focus {
+  width: 71vw;
+  height: 57px;
+}
+
+@media screen and (min-width: 700px) {
+  .picture {
+    width: 130px;
+    height: 130px;
+    margin-top: 20%;
+  }
+  .link {
+    width: 50vw;
+    font-size: 1.4rem;
+  }
+  .link:hover,
+  .link:focus {
+    width: 51vw;
+    height: 56px;
+  }
+}
+
+
+/* Styles */
+.body-a{
+    background-color: rgb(54, 54, 50);
+  }
+  
+  .link-a{
+    color: aqua;
+    border: 1px solid aqua;
+    border-radius: 15px;
+  }
+  .primary-details-b{
+    color: black;
+  }
+  .body-b{
+    background-color: #E27C7C;
+  }
+  .link-b{
+    border: 3px solid #98F0EB;
+    color: rgb(0, 0, 0);
+  }
+  .body-c {
+    background: linear-gradient(180deg, #34CD5F 0%, #2A6ED5 100%);
+  }
+  .primary-details-c{
+    color: black;
+  }
+  .link-c{
+    background: #FFFFFF;
+    box-shadow: 0px 14px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 28px;
+    color: black;
+  }

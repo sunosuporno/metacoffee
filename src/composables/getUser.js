@@ -1,22 +1,31 @@
 import { auth } from "./arcanaInit";
 import { ref } from "vue";
-const user = ref('')
+import { Wallet } from "ethers";
+import padPublicKey from "../composables/padPublicKey";
 
-// const initAuth = async () => {
-//     auth = await AuthProvider.init({
-//         appID: `539`,
-//         flow: 'popup', // 'popup' or 'redirect'
-//         redirectUri:'' // Can be ignored for redirect flow if same as login page
-//      });
-// }
-// initAuth()
+const user = ref("");
+const publicKey = ref("");
 
 const checkUser = async () => {
-    user.value = await auth.isLoggedIn()
-    if(user.value !== false){
-        console.log(await auth.getUserInfo())
-    }
-    console.log(user.value)
-}
+  const loggedIn = await auth.isLoggedIn();
+  console.log(loggedIn);
+  if (loggedIn) {
+    user.value = await auth.getUserInfo();
+    publicKey.value = await auth.getPublicKey({
+      verifier: 'google',
+      id: user.value.userInfo.email,
+    });
+      const actualPublicKey = padPublicKey(publicKey.value);
+      const wallet = new Wallet(user.value.privateKey);
 
-export { user, checkUser }
+      user.value = {
+        ...user.value,
+        walletAddress: wallet.address,
+        privateKey: user.value.privateKey,
+        publicKey: actualPublicKey,
+      };
+    return user;
+  }
+};
+
+export { user, publicKey, checkUser };

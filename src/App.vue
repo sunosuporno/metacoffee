@@ -1,30 +1,43 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <NavBar v-if="renderNavbar"/>
   <router-view/>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import NavBar from './components/NavBar.vue'
+import { onBeforeMount, onMounted, ref, watch } from '@vue/runtime-core';
+import {auth, initAuth} from './composables/arcanaInit'
+import { useRouter } from 'vue-router';
+  export default {
+    components: {
+      NavBar
+    },
+    setup() {
+      const router = useRouter();
+      const renderNavbar = ref(true);
+    const currentName = ref("");
 
-#nav {
-  padding: 30px;
-}
+      // onBeforeMount(async() => {
+      //   console.log(auth)
+      //   const route = router.currentRoute.value.path;
+      //   console.log(route)
+      //   route == "User" ? renderNavbar.value = false : renderNavbar.value = true
+      // })
+      watch(
+      () => router.currentRoute.value.name,
+      (name) => {
+        currentName.value = name;
+        console.log(currentName.value);
+        currentName.value == "User" ? renderNavbar.value = false : renderNavbar.value = true
+      }
+    );
+      return {
+        renderNavbar
+      };
+    },
+  };
+</script>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+<style scoped>
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
