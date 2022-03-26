@@ -1,6 +1,6 @@
 <template>
   <div id ='body' :class="currentBG">
-    <div v-if="isFetching">
+    <div class="fetching" v-if="isFetching">
         <p>Fetching</p>
       </div>
     <div v-else-if="anyError">
@@ -50,7 +50,7 @@ export default {
       anyError.value = false;
       error.value = "";
       noUserFound.value = false;
-      const url = "http://localhost:8080/";
+      const url = "https://metacoffee-backend.vercel.app/";
       try {
         const ipfsHash = await contract.value.methods
           .getIpfsHash(props.username)
@@ -106,5 +106,11 @@ export default {
 </script>
 
 <style scoped>
-
+.fetching{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.4rem;
+}
 </style>

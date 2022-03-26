@@ -165,14 +165,28 @@
           </div>
         </div>
       </div>
-      <button
-        class="submit-form"
-        @click.prevent="handleSubmit"
-        v-if="!submitting"
-      >
-        Submit
-      </button>
-      <button class="submit-form" disabled v-if="submitting">Submitting</button>
+      <div v-if="!exists">
+        <button
+          class="submit-form"
+          @click.prevent="handleSubmit"
+          v-if="!submitting"
+        >
+          Submit
+        </button>
+        <button class="submit-form" disabled v-if="submitting">
+          Submitting
+        </button>
+      </div>
+      <div v-else>
+        <button
+          class="submit-form"
+          @click.prevent="handleSubmit"
+          v-if="!submitting"
+        >
+          Edit
+        </button>
+        <button class="submit-form" disabled v-if="submitting">Editing</button>
+      </div>
     </form>
   </div>
 </template>
@@ -189,14 +203,13 @@ import {
   ListboxOptions,
   ListboxOption,
 } from "@headlessui/vue";
-import { onMounted } from "@vue/runtime-core";
+import { onBeforeMount, onMounted, watch } from "@vue/runtime-core";
 export default {
   components: {
     Listbox,
     ListboxButton,
     ListboxOptions,
     ListboxOption,
-
   },
   setup() {
     const name = ref("");
@@ -275,8 +288,8 @@ export default {
     const selectedOption = ref(linkOptions[0].name);
     const selectedPlaceholder = `Enter your ${selectedOption.value} username`;
 
-    onMounted(async () => {
-      const backendUrl = "http://localhost:8080/";
+    onBeforeMount(async () => {
+      const backendUrl = "https://metacoffee-backend.vercel.app/";
       const response = await fetch(backendUrl + "userExists", {
         method: "GET",
         query: {
@@ -343,24 +356,104 @@ export default {
     };
 
     const copyLink = (username) => {
-      navigator.clipboard.writeText(`http://localhost:8080/${username}`);
-        createToast("Link Copied!", {
-          showCloseButton: true,
-          hideProgressBar: false,
-          timeout: 2000,
-          type: "success",
-          showIcon: true,
-        });
-    }
+      navigator.clipboard.writeText(`https://metacoffee-backend.vercel.app/${username}`);
+      createToast("Link Copied!", {
+        showCloseButton: true,
+        hideProgressBar: false,
+        timeout: 2000,
+        type: "success",
+        showIcon: true,
+      });
+    };
 
     const handleSubmit = async () => {
       submitting.value = true;
       error.value = "";
-      const backendUrl = "http://localhost:8080/";
+      const backendUrl = "https://metacoffee-backend.vercel.app/";
       const name = url.value.trim().replace(" ", "");
       console.log(username);
       const email = user.value.userInfo.email;
       localStorage.setItem("username", url.value.trim().replace(" ", ""));
+      let ipfsHash;
+      const data = {
+        name: user.value.userInfo.name,
+        picture: user.value.userInfo.picture,
+        username: name,
+        about: about.value.trim(),
+        links: enteredLinks.value,
+        style: selectedStyle.value,
+      };
+      try {
+        //Data uploaded to IPFS as well as username added to mongoDB
+        const response3 = await fetch(`${backendUrl}createProfile`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            data: data,
+            username: name,
+            email: email,
+          }),
+        });
+        console.log("response3");
+        //taking out the IPFS hash from the response
+        const jsonRes = await response3.json();
+        ipfsHash = jsonRes.ipfsHash;
+        console.log(ipfsHash);
+
+        //uploading the IPFS hash to the smart contract
+        const nonce2 = await web3.value.eth.getTransactionCount(
+          user.value.walletAddress,
+          "latest"
+        );
+        const tx2 = {
+          from: user.value.walletAddress,
+          to: contractAddress,
+          gas: 2000000,
+          nonce: nonce2,
+          // 'maxPriorityFeePerGas': 1999999987,
+          data: contract.value.methods.registerUser(name, ipfsHash).encodeABI(),
+        };
+        const sign2 = await web3.value.eth.accounts.signTransaction(
+          tx2,
+          user.value.privateKey
+        );
+        const result2 = await web3.value.eth.sendSignedTransaction(
+          sign2.rawTransaction,
+          function (err, hash) {
+            if (!err) {
+              console.log(
+                "The hash of your transaction is: ",
+                hash,
+                "\nCheck Alchemy's Mempool to view the status of your transaction!"
+              );
+            } else {
+              console.log(
+                "Something went wrong when submitting your transaction:",
+                err
+              );
+            }
+          }
+        );
+        console.log("result2");
+        console.log(data);
+        url.value = "";
+        about.value = "";
+        enteredLinks.value = [];
+        submitting.value = false;
+      } catch (err) {
+        console.log(err);
+        error.value = err.message;
+        submitting.value = false;
+      }
+    };
+
+    const handleEdit = async () => {
+      submitting.value = true;
+      error.value = "";
+      const name = localStorage.getItem("username");
+      const email = user.value.userInfo.email;
       let ipfsHash;
       const data = {
         name: user.value.userInfo.name,
@@ -458,7 +551,9 @@ export default {
       handleSubmit,
       themeOptions,
       submitting,
-      copyLink
+      copyLink,
+      error,
+      handleEdit,
     };
   },
 };
@@ -468,8 +563,8 @@ export default {
 .link-header {
   font-size: 2rem;
 }
-.link-header-small{
-  font-size:1.5rem
+.link-header-small {
+  font-size: 1.5rem;
 }
 .url-1 {
   font-size: 1.3rem;
@@ -654,7 +749,7 @@ export default {
   text-decoration: none;
   color: white;
 }
-.created-link{
+.created-link {
   font-size: 1.7rem;
   width: 45%;
   margin: 0 auto;
@@ -662,7 +757,7 @@ export default {
   align-items: center;
   flex-direction: row;
 }
-.copy-btn{
+.copy-btn {
   margin-left: 20px;
   padding: 0.5rem 1.1rem;
   background-color: rgb(62, 48, 252);
@@ -670,7 +765,7 @@ export default {
   border: none;
   border-radius: 12px;
 }
-.copy-btn:hover{
+.copy-btn:hover {
   cursor: pointer;
   background-color: rgb(4, 0, 241);
   padding: 0.5rem 1.2rem;

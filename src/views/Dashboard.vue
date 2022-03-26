@@ -20,7 +20,7 @@ export default {
     const { web3, contract } = setup();
     console.log(contract.value);
     // onMounted(async () => {
-    //   const url = "http://localhost:8080/";
+    //   const url = "https://metacoffee-backend.vercel.app/";
     //   const response = await fetch(url + "get", {
     //     method: "POST",
     //     headers: {

@@ -60,6 +60,7 @@ export default {
       await checkUser();
       console.log(user.value);
       if (user.value) {
+        console.log("logging out");
         await auth.logout();
         user.value = null;
         router.push({ name: "Login" });

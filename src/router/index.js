@@ -4,11 +4,21 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import User from '../views/User.vue'
 
+import { user, publicKey, checkUser } from "../composables/getUser";
+
+const requireAuth = (to, from, next) => {
+  if (!user) {
+    next({name: 'Login'})
+  } else {
+    next()
+  }
+}
+
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
     path: '/login',
@@ -18,7 +28,8 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: Dashboard
+    component: Dashboard,
+    beforeEnter: requireAuth
   },
   {
     path: '/:username',

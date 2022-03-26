@@ -31,7 +31,7 @@
               </p>
             </div>
             <div class="cta">
-              <p>Get yours now for free!</p>
+              <router-link :to="{ name: 'Login' }" class="router-link-text">Get yours now for free!</router-link>
             </div>
             <p class="assurance">✅ No spam. 🏎 Build your link in seconds.</p>
           </div>
@@ -54,7 +54,7 @@
       <div class="last-cta">
         <p class="feature-heading">So what are you waiting for?</p>
         <div class="last-cta-button">
-          <p>Get Started!</p>
+          <router-link :to="{ name: 'Login' }" class="router-link-text">Get Started!</router-link>
         </div>
       </div>
       <div class="footer">
@@ -289,6 +289,14 @@ export default {
   background-color: rgb(74, 74, 211);
   box-shadow: -1px -4px 3px 0px rgb(255 255 255 / 5%),
     5px 5px 5px 3px rgb(0 0 0 / 15%);
+}
+.router-link-text{
+  color: azure;
+  font-size: 1.2rem;
+  font-weight: 300;
+  letter-spacing: -1px;
+  line-height: 30px;
+  text-decoration: none;
 }
 @media only screen and (min-width: 700px) {
   .firma-pitch {
