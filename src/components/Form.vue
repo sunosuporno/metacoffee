@@ -1,7 +1,7 @@
 <template>
   <div class="full-form">
     <div class="created-link" v-if="exists">
-      <a :href="`http://localhost:8081/` + usrnm" class="url-ready"
+      <a :href="`https://metacoffee.vercel.app/` + usrnm" class="url-ready"
         >Your Link: firma.xyz/{{ usrnm }}</a
       >
       <button class="copy-btn" @click="copyLink(usrnm)">Copy Link</button>
