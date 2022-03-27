@@ -124,13 +124,13 @@ nav {
 }
 .logout-panel {
   position: absolute;
-  width: 150px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   background-color: white;
-  border-radius: 21px;
+  border-radius: 10px;
   margin-top: 0.3em;
 }
 .logout-btn {
@@ -160,5 +160,8 @@ nav {
 }
 .user-name:hover{
   cursor: pointer;
+}
+.user-name{
+  margin-left: 23px;
 }
 </style>

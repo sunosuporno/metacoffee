@@ -11,7 +11,8 @@ import { user, publicKey, checkUser } from "../composables/getUser";
 import padPublicKey from "../composables/padPublicKey";
 import Form from "../components/Form.vue";
 import setup from "../composables/web3Init.js";
-import { onMounted } from "@vue/runtime-core";
+import { onMounted, watchEffect } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
 export default {
   components: {
     Form,
@@ -19,6 +20,7 @@ export default {
   setup() {
     const { web3, contract } = setup();
     console.log(contract.value);
+    const router = useRouter();
     // onMounted(async () => {
     //   const url = "https://metacoffee-backend.vercel.app/";
     //   const response = await fetch(url + "get", {
@@ -31,6 +33,13 @@ export default {
     //     }),
     //   });
     // });
+    watchEffect(() => {
+      if (!user.value) {
+        router.push({ name: "Login" });
+      }
+    });
+
+
     const makeWallet = async () => {
       console.log(publicKey.value);
       console.log(user.value.privateKey);

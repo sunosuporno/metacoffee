@@ -6,6 +6,10 @@
       >
       <button class="copy-btn" @click="copyLink(usrnm)">Copy Link</button>
     </div>
+    <div class="created-link wallet">
+      Your wallet address: {{displayWallet}}
+      <button class="copy-btn" @click="copyWallet()">Copy Address</button>
+    </div>
     <p v-if="!exists" class="link-header">Make your link page:</p>
     <p class="link-header-small" v-else>Edit your link page</p>
     <form class="full-form-2">
@@ -165,6 +169,9 @@
           </div>
         </div>
       </div>
+      <div class="error">
+        {{error}}
+      </div>
       <div v-if="!exists">
         <button
           class="submit-form"
@@ -226,6 +233,7 @@ export default {
     const submitting = ref(false);
     const exists = ref(false);
     const usrnm = ref("");
+    const displayWallet = ref("");
     const linkOptions = [
       {
         name: "Twitter",
@@ -303,6 +311,7 @@ export default {
       if (data.result) {
         usrnm.value = localStorage.getItem("username");
       }
+      displayWallet.value = user.value.walletAddress.substr(0,10) + "...";
     });
 
     const handleClick = () => {
@@ -366,6 +375,17 @@ export default {
       });
     };
 
+    const copyWallet = () => {
+      navigator.clipboard.writeText(user.value.walletAddress);
+      createToast("Wallet Address Copied!", {
+        showCloseButton: true,
+        hideProgressBar: false,
+        timeout: 2000,
+        type: "success",
+        showIcon: true,
+      });
+    };
+
     const handleSubmit = async () => {
       submitting.value = true;
       error.value = "";
@@ -384,6 +404,19 @@ export default {
         style: selectedStyle.value,
       };
       try {
+
+        const response = await web3.value.eth.getBalance(user.value.walletAddress);
+        if(response < 0) {
+          createToast("Insufficient Balance!", {
+            showCloseButton: true,
+            hideProgressBar: false,
+            timeout: 2000,
+            type: "error",
+            showIcon: true,
+          });
+          submitting.value = false;
+          return;
+        }
         //Data uploaded to IPFS as well as username added to mongoDB
         const response3 = await fetch(`${backendUrl}createProfile`, {
           method: "POST",
@@ -536,6 +569,8 @@ export default {
       about,
       usrnm,
       links,
+      user,
+      displayWallet,
       linkOptions,
       showDropdown,
       handleClick,
@@ -554,6 +589,8 @@ export default {
       copyLink,
       error,
       handleEdit,
+      copyLink,
+      copyWallet
     };
   },
 };
@@ -770,5 +807,8 @@ export default {
   background-color: rgb(4, 0, 241);
   padding: 0.5rem 1.2rem;
   transition-duration: 800ms;
+}
+.wallet{
+  font-size: 1.2rem;
 }
 </style>

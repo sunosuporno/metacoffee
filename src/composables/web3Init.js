@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 
 const Web3 = require('web3');
-const contractAddress = '0xc0f15E529715366a6077f67444fB2819a0cA7Cc3'
+const contractAddress = '0xD55cf33d0648837032c4396c72a44CE3C1C7c1b1'
 const contractABI = require('../web3/abi.json')
 
 
