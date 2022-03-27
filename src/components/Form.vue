@@ -1,7 +1,7 @@
 <template>
   <div class="full-form">
     <div class="created-link" v-if="exists">
-      <a :href="`https://metacoffee.vercel.app/` + usrnm" class="url-ready"
+      <a :href="`https://metacoffee-6z88sa.argoapp.io/` + usrnm" class="url-ready"
         >Your Link: firma.xyz/{{ usrnm }}</a
       >
       <button class="copy-btn" @click="copyLink(usrnm)">Copy Link</button>
@@ -380,7 +380,7 @@ export default {
 
     const copyLink = (username) => {
       navigator.clipboard.writeText(
-        `https://metacoffee-backend-sunosuporno.vercel.app/${username}`
+        `https://metacoffee-6z88sa.argoapp.io/${username}`
       );
       createToast("Link Copied!", {
         showCloseButton: true,
@@ -493,6 +493,7 @@ export default {
         about.value = "";
         enteredLinks.value = [];
         submitting.value = false;
+        location.reload()
       } catch (err) {
         console.log(err);
         error.value = err.message;
@@ -574,6 +575,7 @@ export default {
         about.value = "";
         enteredLinks.value = [];
         submitting.value = false;
+        location.reload()
       } catch (err) {
         console.log(err);
         error.value = err.message;
