@@ -50,7 +50,7 @@ export default {
       anyError.value = false;
       error.value = "";
       noUserFound.value = false;
-      const url = "https://metacoffee-backend.vercel.app/";
+      const url = "https://metacoffee-backend-sunosuporno.vercel.app/";
       try {
         const ipfsHash = await contract.value.methods
           .getIpfsHash(props.username)

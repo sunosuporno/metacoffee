@@ -7,7 +7,7 @@
       <button class="copy-btn" @click="copyLink(usrnm)">Copy Link</button>
     </div>
     <div class="created-link wallet">
-      Your wallet address: {{displayWallet}}
+      Your wallet address: {{ displayWallet }}
       <button class="copy-btn" @click="copyWallet()">Copy Address</button>
     </div>
     <p v-if="!exists" class="link-header">Make your link page:</p>
@@ -170,7 +170,7 @@
         </div>
       </div>
       <div class="error">
-        {{error}}
+        {{ error }}
       </div>
       <div v-if="!exists">
         <button
@@ -187,7 +187,7 @@
       <div v-else>
         <button
           class="submit-form"
-          @click.prevent="handleSubmit"
+          @click.prevent="handleEdit"
           v-if="!submitting"
         >
           Edit
@@ -210,7 +210,12 @@ import {
   ListboxOptions,
   ListboxOption,
 } from "@headlessui/vue";
-import { onBeforeMount, onMounted, watch } from "@vue/runtime-core";
+import {
+  onBeforeMount,
+  onMounted,
+  watch,
+  watchEffect,
+} from "@vue/runtime-core";
 export default {
   components: {
     Listbox,
@@ -296,23 +301,32 @@ export default {
     const selectedOption = ref(linkOptions[0].name);
     const selectedPlaceholder = `Enter your ${selectedOption.value} username`;
 
-    onBeforeMount(async () => {
-      const backendUrl = "https://metacoffee-backend.vercel.app/";
-      const response = await fetch(backendUrl + "userExists", {
-        method: "GET",
-        query: {
-          user: user.value.userInfo.email,
-        },
+
+      watchEffect(async() => {
+        console.log('running', user.value)
+        if (user.value) {
+          const backendUrl = "https://metacoffee-backend-sunosuporno.vercel.app/";
+          console.log(user.value.userInfo.email)
+          const response = await fetch(backendUrl + "userExists", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: user.value.userInfo.email,
+            }),
+          });
+          const data = await response.json();
+          console.log(data);
+          exists.value = data.result;
+          console.log(exists.value);
+          if (data.result) {
+            usrnm.value = localStorage.getItem("username");
+          }
+          displayWallet.value = user.value.walletAddress.substr(0, 10) + "...";
+        }
       });
-      const data = await response.json();
-      console.log(data);
-      exists.value = data.result;
-      console.log(exists.value);
-      if (data.result) {
-        usrnm.value = localStorage.getItem("username");
-      }
-      displayWallet.value = user.value.walletAddress.substr(0,10) + "...";
-    });
+
 
     const handleClick = () => {
       showDropdown.value = !showDropdown.value;
@@ -365,7 +379,9 @@ export default {
     };
 
     const copyLink = (username) => {
-      navigator.clipboard.writeText(`https://metacoffee-backend.vercel.app/${username}`);
+      navigator.clipboard.writeText(
+        `https://metacoffee-backend-sunosuporno.vercel.app/${username}`
+      );
       createToast("Link Copied!", {
         showCloseButton: true,
         hideProgressBar: false,
@@ -389,7 +405,7 @@ export default {
     const handleSubmit = async () => {
       submitting.value = true;
       error.value = "";
-      const backendUrl = "https://metacoffee-backend.vercel.app/";
+      const backendUrl = "https://metacoffee-backend-sunosuporno.vercel.app/";
       const name = url.value.trim().replace(" ", "");
       console.log(username);
       const email = user.value.userInfo.email;
@@ -404,9 +420,11 @@ export default {
         style: selectedStyle.value,
       };
       try {
-
-        const response = await web3.value.eth.getBalance(user.value.walletAddress);
-        if(response < 0) {
+        const response = await web3.value.eth.getBalance(
+          user.value.walletAddress
+        );
+        console.log(response)
+        if (response <= 0) {
           createToast("Insufficient Balance!", {
             showCloseButton: true,
             hideProgressBar: false,
@@ -486,7 +504,7 @@ export default {
       submitting.value = true;
       error.value = "";
       const name = localStorage.getItem("username");
-      const email = user.value.userInfo.email;
+      const backendUrl = "https://metacoffee-backend-sunosuporno.vercel.app/";
       let ipfsHash;
       const data = {
         name: user.value.userInfo.name,
@@ -497,8 +515,9 @@ export default {
         style: selectedStyle.value,
       };
       try {
+        const ipfsHashDelete = await contract.value.methods.getIpfsHash(name).call();
         //Data uploaded to IPFS as well as username added to mongoDB
-        const response3 = await fetch(`${backendUrl}createProfile`, {
+        const response3 = await fetch(`${backendUrl}editProfile`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -506,7 +525,7 @@ export default {
           body: JSON.stringify({
             data: data,
             username: name,
-            email: email,
+            ipfsHash: ipfsHashDelete,
           }),
         });
         console.log("response3");
@@ -526,7 +545,7 @@ export default {
           gas: 2000000,
           nonce: nonce2,
           // 'maxPriorityFeePerGas': 1999999987,
-          data: contract.value.methods.registerUser(name, ipfsHash).encodeABI(),
+          data: contract.value.methods.updateIpfsHash(name, ipfsHash).encodeABI(),
         };
         const sign2 = await web3.value.eth.accounts.signTransaction(
           tx2,
@@ -590,7 +609,7 @@ export default {
       error,
       handleEdit,
       copyLink,
-      copyWallet
+      copyWallet,
     };
   },
 };
@@ -808,7 +827,7 @@ export default {
   padding: 0.5rem 1.2rem;
   transition-duration: 800ms;
 }
-.wallet{
+.wallet {
   font-size: 1.2rem;
 }
 </style>
