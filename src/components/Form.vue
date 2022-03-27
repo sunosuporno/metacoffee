@@ -380,7 +380,7 @@ export default {
 
     const copyLink = (username) => {
       navigator.clipboard.writeText(
-        `https://metacoffee-6z88sa.argoapp.io/${username}`
+        `https://metacoffee.vercel.app/${username}`
       );
       createToast("Link Copied!", {
         showCloseButton: true,
